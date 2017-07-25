@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.xidian.aemaip.dao.Character_ResourceMapper">
+	<resultMap id="charcater_resureResultMap" type="character_resource">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="resourceid" property="resourceid" jdbcType="INTEGER" />
+		<result column="cid" property="cid" jdbcType="INTEGER" />
+	</resultMap>
+
+	<!-- yusky -->
+	<select id="select" parameterType="page" resultMap="charcater_resureResultMap">
+		select * from character_resource
+		<where>
+			<if test="paramEntity.id!=null">and id = #{paramEntity.id}</if>
+			<if test="paramEntity.resourceid!=null">and resourceid = #{paramEntity.resourceid}</if>
+			<if test="paramEntity.cid!=null">and cid = #{paramEntity.cid}</if>
+		</where>
+		limit #{start},#{rows};
+	</select>
+
+	<select id="selectCount" parameterType="page" resultType="Integer">
+		select * from character_resource
+		<where>
+			<if test="paramEntity.id!=null">and id = #{paramEntity.id}</if>
+			<if test="paramEntity.resourceid!=null">and resourceid = #{paramEntity.resourceid}</if>
+			<if test="paramEntity.cid!=null">and cid = #{paramEntity.cid}</if>
+		</where>
+	</select>
+
+	<update id="updateByID" parameterType="character_resource">
+		update character_resource
+		<set>
+			<if test="resourceid!=null">resourceid = #{resourceid} ,</if>
+			<if test="cid!=null">cid = #{cid},</if>
+		</set>
+		where id=#{id}
+	</update>
+
+	<delete id="delete" parameterType="character_resource">
+		delete from character_resource
+		<where>
+			<if test="id!=null">and id = #{id}</if>
+			<if test="resourceid!=null">and resourceid = #{resourceid}</if>
+			<if test="cid!=null">and cid = #{cid}</if>
+		</where>
+	</delete>
+	<!-- yusky -->
+
+	<!-- xtc -->
+	<select id="selectByCid" parameterType="int"
+		resultMap="charcater_resureResultMap">
+		Select * from character_resource
+		where cid=#{cid};
+	</select>
+
+	<insert id="insert" parameterType="character_resource">
+		insert into character_resource
+		(resourceid,cid)
+		values
+		(#{resourceid},#{cid});
+	</insert>
+
+</mapper>

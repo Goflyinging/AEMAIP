@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+	http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+	">
+	<mvc:annotation-driven />
+
+	<context:component-scan base-package="cn.xidian">
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.stereotype.Service" />
+	</context:component-scan>
+	<bean id="stringConverter"
+		class="org.springframework.http.converter.StringHttpMessageConverter">
+		<property name="supportedMediaTypes">
+			<list>
+				<value>text/plain;charset=UTF-8</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="jsonConverter"
+		class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"></bean>
+	<bean
+		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<ref bean="stringConverter" />
+				<ref bean="jsonConverter" />
+			</list>
+		</property>
+	</bean>
+	<!-- json end -->
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix">
+			<value>/WEB-INF/views/</value>
+		</property>
+		<property name="suffix">
+			<value>.jsp</value>
+		</property>
+	</bean>
+
+	<mvc:resources location="/images/" mapping="/images/**" />
+	<mvc:resources location="/css/" mapping="/css/**" />
+	<mvc:resources location="/js/" mapping="/js/**" />
+	<mvc:resources location="/jquery-easyui-1.5/" mapping="/jquery-easyui-1.5/**" />
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/find/company/*" />
+			<mvc:mapping path="/find/system/*" />
+			<mvc:mapping path="/find/zjz/*" />
+			<mvc:mapping path="/company/*" />
+			<mvc:mapping path="/project/*" />
+			<mvc:mapping path="/supervision/*" />
+			<mvc:mapping path="/sys/*" />
+			<mvc:mapping path="/zjz/*" />
+			<mvc:exclude-mapping path="/company/register" />
+			<mvc:exclude-mapping path="/company/reSuccess" />
+			<bean class="cn.xidian.aemaip.interceptor.HelloInterceptor"></bean>
+		</mvc:interceptor>
+
+	</mvc:interceptors>
+	<!-- <mvc:interceptors> <bean class="cn.xidian.aemaip.interceptor.HelloInterceptor"></bean> 
+		</mvc:interceptors> -->
+
+</beans>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.xidian.aemaip.dao.PrjstateMapper" >
+  <resultMap id="prjstateResultMap" type="prjstate" >
+    <id column="prjsid" property="prjsid" jdbcType="INTEGER" />
+    <result column="msg" property="msg" jdbcType="CHAR" />
+  </resultMap>
+<select id="selectById" parameterType="int"
+  resultMap="prjstateResultMap">
+  select * from prjstate
+  where prjsid=#{prjsid};
+  </select>
+  <insert id="insert" parameterType="prjstate">
+  insert into prjstate
+  (prjsid,msg)
+  values
+  (#{prjsid},#{msg});
+  </insert>
+  <select id="selectByMsg" parameterType="String"
+  resultMap="prjstateResultMap">
+  select * from prjstate
+  where msg=#{msg};
+  </select>
+  <select id="selectAll" resultMap="prjstateResultMap">
+  select * from  prjstate;
+  </select>
+</mapper>

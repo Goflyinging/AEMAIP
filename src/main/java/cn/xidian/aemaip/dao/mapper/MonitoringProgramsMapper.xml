@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.xidian.aemaip.dao.MonitoringProgramsMapper">
+	<resultMap id="monitoringProgramsResultMap" type="monitoringPrograms">
+		<id column="mpid" property="mpid" jdbcType="INTEGER" />
+		<result column="sid" property="sid" jdbcType="INTEGER" />
+		<result column="mps_sid" property="mpsSid" jdbcType="INTEGER" />
+		<result column="projectid" property="projectid" jdbcType="INTEGER" />
+		<result column="mpmsg" property="mpmsg" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<select id="select" parameterType="monitoringPrograms"
+		resultMap="monitoringProgramsResultMap">
+		select * from monitoringprograms
+		<where>
+			<if test="mpid!=null">and mpid = #{mpid}</if>
+			<if test="sid!=null">and sid = #{sid}</if>
+			<if test="mpsSid!=null">and mps_sid = #{mpsSid}</if>
+			<if test="projectid!=null">and projectid = #{projectid}</if>
+			<if test="mpmsg!=null">and mpmsg = #{mpmsg}</if>
+		</where>
+	</select>
+
+	<select id="selectPage" parameterType="page"
+		resultMap="monitoringProgramsResultMap">
+		select * from monitoringprograms
+		<where>
+			<if test="paramEntity.mpid!=null">and mpid = #{paramEntity.mpid}</if>
+			<if test="paramEntity.sid!=null">and sid = #{paramEntity.sid}</if>
+			<if test="paramEntity.mpsSid!=null">and mps_sid = #{paramEntity.mpsSid}</if>
+			<if test="paramEntity.projectid!=null">and projectid = #{paramEntity.projectid}</if>
+			<if test="paramEntity.mpmsg!=null">and mpmsg = #{paramEntity.mpmsg}</if>
+		</where>
+		limit #{start},#{rows};
+	</select>
+
+	<select id="selectCount" parameterType="page" resultType="Integer">
+		select count(1) from monitoringprograms
+		<where>
+			<if test="paramEntity.mpid!=null">and mpid = #{paramEntity.mpid}</if>
+			<if test="paramEntity.sid!=null">and sid = #{paramEntity.sid}</if>
+			<if test="paramEntity.mpsSid!=null">and mps_sid = #{paramEntity.mpsSid}</if>
+			<if test="paramEntity.projectid!=null">and projectid = #{paramEntity.projectid}</if>
+			<if test="paramEntity.mpmsg!=null">and mpmsg = #{paramEntity.mpmsg}</if>
+		</where>
+	</select>
+
+
+	<update id="updateByID" parameterType="monitoringPrograms">
+		update monitoringprograms
+		<set>
+			<if test="sid!=null"> sid = #{sid},</if>
+			<if test="mpsSid!=null"> mps_sid = #{mpsSid},</if>
+			<if test="projectid!=null"> projectid = #{projectid},</if>
+			<if test="mpmsg!=null"> mpmsg = #{mpmsg},</if>
+		</set>
+		where mpid=#{mpid}
+	</update>
+
+
+	<sql id="key">
+		<trim suffixOverrides=",">
+			<if test="sid!=null"> sid,</if>
+			<if test="mpsSid!=null"> mps_sid,</if>
+			<if test="projectid!=null"> projectid,</if>
+			<if test="mpmsg!=null"> mpmsg,</if>
+		</trim>
+	</sql>
+	<sql id="value">
+		<trim suffixOverrides=",">
+			<if test="sid!=null">#{sid},</if>
+			<if test="mpsSid!=null">#{mpsSid},</if>
+			<if test="projectid!=null"> #{projectid},</if>
+			<if test="mpmsg!=null"> #{mpmsg},</if>
+		</trim>
+	</sql>
+	<insert id="insert" parameterType="monitoringPrograms">
+		insert into monitoringprograms
+		(
+		<include refid="key" />
+		)
+		values (
+		<include refid="value" />
+		)
+	</insert>
+
+</mapper>

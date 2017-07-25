@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.xidian.aemaip.dao.ResourceMapper">
+	<resultMap id="resourceResultMap" type="resource">
+		<id column="resourceid" property="resourceid" jdbcType="INTEGER" />
+		<result column="res_resourceid" property="res_resourceid"
+			jdbcType="INTEGER" />
+		<result column="resourcename" property="resourcename" jdbcType="CHAR" />
+		<result column="adress" property="adress" jdbcType="CHAR" />
+		<result column="number" property="number" jdbcType="INTEGER" />
+
+		<collection property="children" column="resourceid" select="getChildren" />
+	</resultMap>
+
+	<!-- yusky -->
+	<select id="select" parameterType="page" resultMap="resourceResultMap">
+		select * from resource
+		<where>
+			<if test="paramEntity.resourceid!=null">and resourceid = #{paramEntity.resourceid}</if>
+			<if test="paramEntity.res_resourceid!=null">and res_resourceid = #{paramEntity.res_resourceid}</if>
+			<if test="paramEntity.resourcename!=null">and resourcename = #{paramEntity.resourcename}</if>
+			<if test="paramEntity.adress!=null">and adress = #{paramEntity.adress}</if>
+			<if test="paramEntity.number!=null">and number = #{paramEntity.number}</if>
+		</where>
+		limit #{start},#{rows};
+	</select>
+
+	<select id="selectCount" parameterType="page" resultType="Integer">
+		select count(1) from resource
+		<where>
+			<if test="paramEntity.resourceid!=null">and resourceid = #{paramEntity.resourceid}</if>
+			<if test="paramEntity.res_resourceid!=null">and res_resourceid = #{paramEntity.res_resourceid}</if>
+			<if test="paramEntity.resourcename!=null">and resourcename = #{paramEntity.resourcename}</if>
+			<if test="paramEntity.adress!=null">and adress = #{paramEntity.adress}</if>
+			<if test="paramEntity.number!=null">and number = #{paramEntity.number}</if>
+		</where>
+	</select>
+
+	<update id="updateByID" parameterType="resource">
+		update resource
+		<set>
+			<if test="res_resourceid!=null"> res_resourceid = #{res_resourceid},</if>
+			<if test="resourcename!=null"> resourcename = #{resourcename},</if>
+			<if test="adress!=null"> adress = #{adress},</if>
+			<if test="number!=null"> number = #{number},</if>
+		</set>
+		where resourceid=#{resourceid}
+	</update>
+
+	<delete id="delete" parameterType="resource">
+		delete from resource
+		<where>
+			<if test="resourceid!=null">and resourceid = #{resourceid}</if>
+			<if test="res_resourceid!=null">and res_resourceid = #{res_resourceid}</if>
+			<if test="resourcename!=null">and resourcename = #{resourcename}</if>
+			<if test="adress!=null">and adress = #{adress}</if>
+			<if test="number!=null">and number = #{number}</if>
+		</where>
+	</delete>
+
+	<!-- yusky -->
+
+	<!-- xtc -->
+	<select id="selectById" parameterType="int" resultMap="resourceResultMap">
+		select *
+		from resource where resourceid = #{resourceid};
+	</select>
+
+	<insert id="insert" parameterType="resource">
+		insert into resource
+		(res_resourceid,resourcename,adress)
+		values
+		(#{res_resourceid},#{resourcename},#{adress});
+	</insert>
+
+	<select id="selectByaddress" parameterType="String" resultMap="resourceResultMap">
+		select * from resource where adress = #{adress};
+	</select>
+
+	<select id="selectByRes_resourceid" parameterType="int"
+		resultMap="resourceResultMap">
+		select * from resource where
+		res_resourceid=#{res_resourceid};
+	</select>
+
+	<!-- 全部查询 -->
+	<select id="selectAll" resultMap="resourceResultMap">
+		select * from resource where Res_resourceid is null;
+	</select>
+
+	<select id="getChildren" parameterType="int" resultMap="resourceResultMap">
+		select * from resource where Res_resourceid = #{resourceid}
+	</select>
+
+</mapper>

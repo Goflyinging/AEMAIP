@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.xidian.aemaip.dao.UsersMapper">
+	<resultMap id="usersResultMap" type="users">
+		<id column="account" property="account" jdbcType="INTEGER" />
+		<result column="stateid" property="stateid" jdbcType="INTEGER" />
+		<result column="username" property="username" jdbcType="CHAR" />
+		<result column="passwd" property="passwd" jdbcType="CHAR" />
+	</resultMap>
+
+	<select id="select" parameterType="page" resultMap="usersResultMap">
+		select * from users
+		<where>
+			<if test="paramEntity.account!=null">and account = #{paramEntity.account}</if>
+			<if test="paramEntity.stateid!=null">and stateid = #{paramEntity.stateid}</if>
+			<if test="paramEntity.username!=null">and username = #{paramEntity.username}</if>
+			<if test="paramEntity.passwd!=null">and passwd = #{paramEntity.passwd}</if>
+		</where>
+		limit #{start},#{rows};
+	</select>
+
+	<select id="selectCount" parameterType="page" resultType="Integer">
+		select count(1) from users
+		<where>
+			<if test="paramEntity.account!=null">and account = #{paramEntity.account}</if>
+			<if test="paramEntity.stateid!=null">and stateid = #{paramEntity.stateid}</if>
+			<if test="paramEntity.username!=null">and username = #{paramEntity.username}</if>
+			<if test="paramEntity.passwd!=null">and passwd = #{paramEntity.passwd}</if>
+		</where>
+	</select>
+
+	<update id="updateByID" parameterType="users">
+		update users
+		<set>
+			<if test="stateid!=null">stateid = #{stateid},</if>
+			<if test="username!=null">username = #{username},</if>
+			<if test="passwd!=null">passwd = #{passwd},</if>
+		</set>
+		where account=#{account}
+	</update>
+
+	<select id="getUserResource" parameterType="int" resultType="Integer">
+		select resourceid from userscharactersresource where account=#{0}
+	</select>
+
+
+
+
+	<select id="selectUserById" parameterType="int" resultMap="usersResultMap">
+		select * from Users where account = #{account};
+	</select>
+
+	<select id="selectUserByUsernameAndPasswd" resultMap="usersResultMap">
+		select *
+		from Users where
+		username = #{0} and passwd=#{1}
+	</select>
+
+	<select id="selectUserByUsername" parameterType="String"
+		resultMap="usersResultMap">
+		select * from Users where username = #{username};
+	</select>
+
+	<insert id="insert" parameterType="users">
+		insert into Users
+		(stateid,username,passwd)
+		values
+		(#{stateid},#{username},#{passwd});
+	</insert>
+
+	<update id="updatePwdByID">
+		update Users
+		set
+		passwd =#{1}
+		where
+		account =#{0};
+	</update>
+
+	<update id="updateStateByID">
+		update Users
+		set
+		stateid =#{1}
+		where
+		account =#{0};
+	</update>
+
+</mapper>

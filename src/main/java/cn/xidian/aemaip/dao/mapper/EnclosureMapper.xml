@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.xidian.aemaip.dao.EnclosureMapper" >
+  <resultMap id="enclosureResultMap" type="enclosure" >
+    <id column="fileid" property="fileid" jdbcType="INTEGER" />
+    <result column="adress" property="adress" jdbcType="CHAR" />
+    <result column="filename" property="filename" jdbcType="CHAR" />
+    <result column="msg" property="msg" jdbcType="CHAR" />
+  </resultMap>
+  <insert id="insert" parameterType="enclosure">
+  insert into enclosure
+  (adress,filename,msg)
+  values
+  (#{adress},#{filename},#{msg});
+  </insert>
+  <select id="selectById" parameterType="int"
+  resultMap="enclosureResultMap">
+  select * from enclosure
+  where fileid=#{fileid};
+  </select>
+  <select id="selectByAddress" parameterType="String"
+  resultMap="enclosureResultMap">
+  select * from enclosure
+  where adress=#{adress};
+  </select>
+</mapper>

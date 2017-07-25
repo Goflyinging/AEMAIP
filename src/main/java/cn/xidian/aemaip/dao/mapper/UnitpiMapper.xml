@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.xidian.aemaip.dao.UnitpiMapper">
+	<resultMap id="unitpiResultMap" type="unitpi">
+		<id column="upiid" property="upiid" jdbcType="INTEGER" />
+		<result column="companyid" property="companyid" jdbcType="INTEGER" />
+		<result column="adressid" property="adressid" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="CHAR" />
+		<result column="telephone" property="phone" jdbcType="CHAR" />
+		<result column="sex" property="sex" jdbcType="SMALLINT" />
+		<result column="mag" property="msg" jdbcType="CHAR" />
+	</resultMap>
+
+	<select id="selectPIById" parameterType="int" resultMap="unitpiResultMap">
+		select *
+		from unitpi where upiid = #{upiid};
+	</select>
+
+	<select id="selectPIByCompany" parameterType="int" resultMap="unitpiResultMap">
+		select * from unitpi where companyid = #{companyid};
+	</select>
+
+	<select id="selectPIByMsg" parameterType="String" resultMap="unitpiResultMap">
+		select * from unitpi where mag = #{msg};
+	</select>
+
+	<insert id="insert" parameterType="unitpi">
+		insert into unitpi
+		(companyid,adressid,name,telephone,sex,mag)
+		values
+		(#{companyid},#{adressid},#{name},#{phone},#{sex},#{msg});
+	</insert>
+
+	<update id="updateMsgByID">
+		update unitpi set mag =#{1}
+		where upiid =#{0};
+	</update>
+
+
+	<select id="select" parameterType="page" resultMap="unitpiResultMap">
+		select * from unitpi
+		<where>
+			<if test="paramEntity.upiid!=null">and upiid = #{paramEntity.upiid}</if>
+			<if test="paramEntity.companyid!=null">and companyid = #{paramEntity.companyid}</if>
+			<if test="paramEntity.adressid!=null">and adressid = #{paramEntity.adressid}</if>
+			<if test="paramEntity.name!=null">and name = #{paramEntity.name}</if>
+			<if test="paramEntity.phone!=null">and telephone = #{paramEntity.phone}</if>
+			<if test="paramEntity.sex!=null">and sex = #{paramEntity.sex}</if>
+			<if test="paramEntity.msg!=null">and mag = #{paramEntity.msg}</if>
+		</where>
+		limit #{start},#{rows};
+	</select>
+
+	<select id="selectCount" parameterType="page" resultType="Integer">
+		select count(1) from unitpi
+		<where>
+			<if test="paramEntity.upiid!=null">and upiid = #{paramEntity.upiid}</if>
+			<if test="paramEntity.companyid!=null">and companyid = #{paramEntity.companyid}</if>
+			<if test="paramEntity.adressid!=null">and adressid = #{paramEntity.adressid}</if>
+			<if test="paramEntity.name!=null">and name = #{paramEntity.name}</if>
+			<if test="paramEntity.phone!=null">and telephone = #{paramEntity.phone}</if>
+			<if test="paramEntity.sex!=null">and sex = #{paramEntity.sex}</if>
+			<if test="paramEntity.msg!=null">and mag = #{paramEntity.msg}</if>
+		</where>
+	</select>
+
+	<update id="updateByID" parameterType="unitpi">
+		update unitpi
+		<set>
+			<if test="companyid!=null">companyid = #{companyid},</if>
+			<if test="adressid!=null">adressid = #{adressid},</if>
+			<if test="name!=null">name = #{name},</if>
+			<if test="phone!=null">telephone = #{phone},</if>
+			<if test="sex!=null">sex = #{sex},</if>
+			<if test="msg!=null">mag = #{msg},</if>
+		</set>
+		where upiid=#{upiid}
+	</update>
+
+</mapper>

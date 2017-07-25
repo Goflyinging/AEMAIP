@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.xidian.aemaip.dao.FaocMapper">
+	<resultMap id="faocResultMap" type="faoc">
+		<id column="faocid" property="faocid" jdbcType="INTEGER" />
+		<result column="projectid" property="projectid" jdbcType="INTEGER" />
+		<result column="faocdate" property="faocdate" jdbcType="DATE" />
+		<result column="applicationresult" property="applicationresult"
+			jdbcType="LONGVARCHAR" />
+		<result column="applicationadvice" property="applicationadvice"
+			jdbcType="CHAR" />
+	</resultMap>
+
+	<select id="select" parameterType="page" resultMap="faocResultMap">
+		select * from faoc
+		<where>
+			<if test="paramEntity.faocid!=null">and faocid = #{paramEntity.faocid}</if>
+			<if test="paramEntity.projectid!=null">and projectid = #{paramEntity.projectid}</if>
+			<if test="paramEntity.faocdate!=null">and faocdate = #{paramEntity.faocdate}</if>
+			<if test="paramEntity.applicationresult!=null">
+				and applicationresult = #{paramEntity.applicationresult}
+			</if>
+			<if test="paramEntity.applicationadvice!=null">
+				and applicationadvice = #{paramEntity.applicationadvice}
+			</if>
+		</where>
+		limit #{start},#{rows};
+	</select>
+
+	<select id="selectCount" parameterType="page" resultType="Integer">
+		select count(1) from faoc
+		<where>
+			<if test="paramEntity.faocid!=null">and faocid = #{paramEntity.faocid}</if>
+			<if test="paramEntity.projectid!=null">and projectid = #{paramEntity.projectid}</if>
+			<if test="paramEntity.faocdate!=null">and faocdate = #{paramEntity.faocdate}</if>
+			<if test="paramEntity.applicationresult!=null">
+				and applicationresult = #{paramEntity.applicationresult}
+			</if>
+			<if test="paramEntity.applicationadvice!=null">
+				and applicationadvice = #{paramEntity.applicationadvice}
+			</if>
+		</where>
+	</select>
+
+
+	<update id="updateByID" parameterType="faoc">
+		update faoc
+		<set>
+			<if test="projectid!=null">projectid = #{projectid},</if>
+			<if test="faocdate!=null">faocdate = #{faocdate},</if>
+			<if test="applicationresult!=null">applicationresult = #{applicationresult},</if>
+			<if test="applicationadvice!=null">applicationadvice = #{applicationadvice},</if>
+		</set>
+		where faocid=#{faocid}
+	</update>
+
+
+	<sql id="key">
+		<trim suffixOverrides=",">
+			<if test="faocid!=null">faocid,</if>
+			<if test="projectid!=null">projectid,</if>
+			<if test="faocdate!=null">faocdate,</if>
+			<if test="applicationresult!=null">applicationresult,</if>
+			<if test="applicationadvice!=null">applicationadvice,</if>
+		</trim>
+	</sql>
+	<sql id="value">
+		<trim suffixOverrides=",">
+			<if test="faocid!=null">#{faocid},</if>
+			<if test="projectid!=null">#{projectid},</if>
+			<if test="faocdate!=null">#{faocdate},</if>
+			<if test="applicationresult!=null">#{applicationresult},</if>
+			<if test="applicationadvice!=null">#{applicationadvice},</if>
+		</trim>
+	</sql>
+	<insert id="insert" parameterType="faoc">
+		insert into faoc
+		(
+		<include refid="key" />
+		)
+		values (
+		<include refid="value" />
+		)
+	</insert>
+
+</mapper>

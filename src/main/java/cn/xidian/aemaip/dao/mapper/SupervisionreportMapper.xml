@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.xidian.aemaip.dao.SupervisionreportMapper">
+	<resultMap id="supervisionreportResultMap" type="supervisionreport">
+		<id column="sreportid" property="sreportid" jdbcType="INTEGER" />
+		<result column="projectid" property="projectid" jdbcType="INTEGER" />
+		<result column="state" property="state" jdbcType="INTEGER" />
+		<result column="begintime" property="begintime" jdbcType="DATE" />
+		<result column="endtime" property="endtime" jdbcType="DATE" />
+		<result column="result" property="result" jdbcType="CHAR" />
+		<result column="checkresult" property="checkresult" jdbcType="CHAR" />
+		<result column="writettime" property="writettime" jdbcType="DATE" />
+		<result column="report" property="report" jdbcType="LONGVARCHAR" />
+	</resultMap>
+
+
+	<select id="select" parameterType="page" resultMap="supervisionreportResultMap">
+		select * from supervisionreport
+		<where>
+			<if test="paramEntity.sreportid!=null">and sreportid = #{paramEntity.sreportid}</if>
+			<if test="paramEntity.projectid!=null">and projectid = #{paramEntity.projectid}</if>
+			<if test="paramEntity.state!=null">and state = #{paramEntity.state}</if>
+			<if test="paramEntity.begintime!=null">and begintime = #{paramEntity.begintime}</if>
+			<if test="paramEntity.endtime!=null">and endtime = #{paramEntity.endtime}</if>
+			<if test="paramEntity.result!=null">and result = #{paramEntity.result}</if>
+			<if test="paramEntity.checkresult!=null">and checkresult = #{paramEntity.checkresult}</if>
+			<if test="paramEntity.writettime!=null">and writettime = #{paramEntity.writettime}</if>
+			<if test="paramEntity.report!=null">and report = #{paramEntity.report}</if>
+		</where>
+		limit #{start},#{rows};
+	</select>
+
+	<select id="selectCount" parameterType="page" resultType="Integer">
+		select count(1) from supervisionreport
+		<where>
+			<if test="paramEntity.sreportid!=null">and sreportid = #{paramEntity.sreportid}</if>
+			<if test="paramEntity.projectid!=null">and projectid = #{paramEntity.projectid}</if>
+			<if test="paramEntity.state!=null">and state = #{paramEntity.state}</if>
+			<if test="paramEntity.begintime!=null">and begintime = #{paramEntity.begintime}</if>
+			<if test="paramEntity.endtime!=null">and endtime = #{paramEntity.endtime}</if>
+			<if test="paramEntity.result!=null">and result = #{paramEntity.result}</if>
+			<if test="paramEntity.checkresult!=null">and checkresult = #{paramEntity.checkresult}</if>
+			<if test="paramEntity.writettime!=null">and writettime = #{paramEntity.writettime}</if>
+			<if test="paramEntity.report!=null">and report = #{paramEntity.report}</if>
+		</where>
+	</select>
+    <select id="select1" parameterType="page" resultMap="supervisionreportResultMap">
+		select * from supervisionreport
+		<where>
+			<if test="paramEntity.sreportid!=null">and sreportid = #{paramEntity.sreportid}</if>
+			<if test="paramEntity.projectid!=null">and projectid = #{paramEntity.projectid}</if>
+			and (state =400 or state=401)
+			<if test="paramEntity.begintime!=null">and begintime = #{paramEntity.begintime}</if>
+			<if test="paramEntity.endtime!=null">and endtime = #{paramEntity.endtime}</if>
+			<if test="paramEntity.result!=null">and result = #{paramEntity.result}</if>
+			<if test="paramEntity.checkresult!=null">and checkresult = #{paramEntity.checkresult}</if>
+			<if test="paramEntity.writettime!=null">and writettime = #{paramEntity.writettime}</if>
+			<if test="paramEntity.report!=null">and report = #{paramEntity.report}</if>
+		</where>
+		limit #{start},#{rows};
+	</select>
+
+	<select id="selectCount1" parameterType="page" resultType="Integer">
+		select count(1) from supervisionreport
+		<where>
+			<if test="paramEntity.sreportid!=null">and sreportid = #{paramEntity.sreportid}</if>
+			<if test="paramEntity.projectid!=null">and projectid = #{paramEntity.projectid}</if>
+			and (state =400 or state=401)
+			<if test="paramEntity.begintime!=null">and begintime = #{paramEntity.begintime}</if>
+			<if test="paramEntity.endtime!=null">and endtime = #{paramEntity.endtime}</if>
+			<if test="paramEntity.result!=null">and result = #{paramEntity.result}</if>
+			<if test="paramEntity.checkresult!=null">and checkresult = #{paramEntity.checkresult}</if>
+			<if test="paramEntity.writettime!=null">and writettime = #{paramEntity.writettime}</if>
+			<if test="paramEntity.report!=null">and report = #{paramEntity.report}</if>
+		</where>
+	</select>
+
+	<update id="updateByID" parameterType="supervisionreport">
+		update supervisionreport
+		<set>
+			<if test="projectid!=null">projectid = #{projectid},</if>
+			<if test="state!=null">state = #{state},</if>
+			<if test="begintime!=null">begintime = #{begintime},</if>
+			<if test="endtime!=null">endtime = #{endtime},</if>
+			<if test="result!=null">result = #{result},</if>
+			<if test="checkresult!=null">checkresult = #{checkresult},</if>
+			<if test="writettime!=null">writettime = #{writettime},</if>
+			<if test="report!=null">report = #{report},</if>
+		</set>
+		where sreportid=#{sreportid}
+	</update>
+
+
+	<sql id="key">
+		<trim suffixOverrides=",">
+			<if test="projectid!=null">projectid,</if>
+			<if test="state!=null">state,</if>
+			<if test="begintime!=null">begintime,</if>
+			<if test="endtime!=null">endtime,</if>
+			<if test="result!=null">result,</if>
+			<if test="checkresult!=null">checkresult,</if>
+			<if test="writettime!=null">writettime,</if>
+			<if test="report!=null">report,</if>
+		</trim>
+	</sql>
+	<sql id="value">
+		<trim suffixOverrides=",">
+			<if test="projectid!=null">#{projectid},</if>
+			<if test="state!=null">#{state},</if>
+			<if test="begintime!=null">#{begintime},</if>
+			<if test="endtime!=null">#{endtime},</if>
+			<if test="result!=null">#{result},</if>
+			<if test="checkresult!=null">#{checkresult},</if>
+			<if test="writettime!=null">#{writettime},</if>
+			<if test="report!=null">#{report},</if>
+		</trim>
+	</sql>
+	<insert id="insert" parameterType="supervisionreport">
+		insert into supervisionreport
+		(
+		<include refid="key" />
+		)
+		values (
+		<include refid="value" />
+		)
+	</insert>
+
+</mapper>

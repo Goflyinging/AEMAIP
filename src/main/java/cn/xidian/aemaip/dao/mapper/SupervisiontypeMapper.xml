@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.xidian.aemaip.dao.SupervisiontypeMapper">
+	<resultMap id="supervisiontypeResultMap" type="supervisiontype">
+		<id column="stid" property="stid" jdbcType="INTEGER" />
+		<result column="stname" property="stname" jdbcType="CHAR" />
+	</resultMap>
+
+	<select id="select" parameterType="supervisiontype" resultMap="supervisiontypeResultMap">
+		select * from supervisiontype
+		<where>
+			<if test="stid!=null">and stid = #{stid}</if>
+			<if test="stname!=null">and stname = #{stname}</if>
+		</where>
+	</select>
+
+</mapper>

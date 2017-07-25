@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+	<properties resource="gernInit.properties" />
+	<classPathEntry
+		location="${classPath}" />
+	<!-- 指定运行环境是mybatis3的版本 -->
+	<context id="testTables" targetRuntime="MyBatis3">
+
+		<commentGenerator>
+			<!-- 是否取消注释 -->
+			<property name="suppressAllComments" value="true" />
+			<!-- 是否生成注释代时间戳 -->
+			<property name="suppressDate" value="true" />
+		</commentGenerator>
+		<!-- 处理2 jdbc 连接信息 -->
+		<jdbcConnection driverClass="${jdbc_driver}"
+			connectionURL="${jdbc_url}"
+			userId="${jdbc_user}" password="${jdbc_password}">
+		</jdbcConnection>
+
+		<!--处理3 targetPackage指定模型在生成在哪个包 ,targetProject指定项目的src, -->
+		<javaModelGenerator targetPackage="out"
+			targetProject="${project}">
+			<!-- 去除字段前后空格 -->
+			<property name="trimStrings" value="false" />
+		</javaModelGenerator>
+		<!--处理4 配置SQL映射文件生成信息 -->
+		<sqlMapGenerator targetPackage="out"
+			targetProject="${project}" />
+		<!-- 处理5 配置dao接口生成信息 -->
+		<javaClientGenerator type="XMLMAPPER"
+			targetPackage="out" targetProject="${project}" />
+		<!-- 自己配置要生成的表明和实体类名 -->
+		<table tableName="companytype" domainObjectName="Companytype" />
+	</context>
+</generatorConfiguration>

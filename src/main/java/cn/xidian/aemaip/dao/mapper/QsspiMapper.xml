@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.xidian.aemaip.dao.QsspiMapper">
+	<resultMap id="qsspiResultMap" type="qsspi">
+		<id column="qsspiid" property="qsspiid" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="CHAR" />
+		<result column="sex" property="sex" jdbcType="SMALLINT" />
+		<result column="tel" property="tel" jdbcType="CHAR" />
+		<result column="msg" property="msg" jdbcType="CHAR" />
+		<result column="account" property="account" jdbcType="INTEGER" />
+		<result column="qssid" property="qssid" jdbcType="INTEGER" />
+		<result column="username" property="username" jdbcType="CHAR" />
+	</resultMap>
+
+	<select id="selectQpiById" parameterType="int" resultMap="qsspiResultMap">
+		select
+		* from qsspi where qsspiid = #{qsspiid} limit 1;
+	</select>
+
+	<select id="selectLast" resultType="int">
+		select LAST_INSERT_ID()
+	</select>
+
+	<select id="selectQpiByQss" parameterType="int" resultMap="qsspiResultMap">
+		select
+		* from qsspi where qssid = #{qssid};
+	</select>
+
+	<select id="selectQpiByMsg" parameterType="String" resultMap="qsspiResultMap">
+		select
+		* from qsspi where msg = #{msg};
+	</select>
+
+	<update id="updateMsgByID">
+		update qsspi set msg=#{1} where qsspiid=#{0};
+	</update>
+
+	<insert id="insert" parameterType="qsspi" useGeneratedKeys="true"
+		keyProperty="qsspiid">
+		insert into qsspi (name, sex,
+		tel, msg, account, qssid)
+		VALUES (#{name},
+		#{sex}, #{tel}, #{msg},
+		#{account}, #{qssid})
+	</insert>
+
+
+
+	<select id="select" parameterType="page" resultMap="qsspiResultMap">
+		select * from qsspiwithusername
+		<where>
+			<if test="paramEntity.qsspiid!=null">and qsspiid = #{paramEntity.qsspiid}</if>
+			<if test="paramEntity.name!=null">and name = #{paramEntity.name}</if>
+			<if test="paramEntity.sex!=null">and sex = #{paramEntity.sex}</if>
+			<if test="paramEntity.tel!=null">and tel = #{paramEntity.tel}</if>
+			<if test="paramEntity.msg!=null">and msg = #{paramEntity.msg}</if>
+			<if test="paramEntity.account!=null">and account = #{paramEntity.account}</if>
+			<if test="paramEntity.qssid!=null">and qssid = #{paramEntity.qssid}</if>
+			<if test="paramEntity.username!=null">and username = #{paramEntity.username}</if>
+		</where>
+		limit #{start},#{rows};
+	</select>
+
+	<select id="selectCount" parameterType="page" resultType="Integer">
+		select count(1) from qsspiwithusername
+		<where>
+			<if test="paramEntity.qsspiid!=null">and qsspiid = #{paramEntity.qsspiid}</if>
+			<if test="paramEntity.name!=null">and name = #{paramEntity.name}</if>
+			<if test="paramEntity.sex!=null">and sex = #{paramEntity.sex}</if>
+			<if test="paramEntity.tel!=null">and tel = #{paramEntity.tel}</if>
+			<if test="paramEntity.msg!=null">and msg = #{paramEntity.msg}</if>
+			<if test="paramEntity.account!=null">and account = #{paramEntity.account}</if>
+			<if test="paramEntity.qssid!=null">and qssid = #{paramEntity.qssid}</if>
+			<if test="paramEntity.username!=null">and username = #{paramEntity.username}</if>
+		</where>
+	</select>
+
+	<update id="updateByID" parameterType="qsspi">
+		update qsspi
+		<set>
+			<if test="name!=null">name = #{name},</if>
+			<if test="sex!=null">sex = #{sex},</if>
+			<if test="tel!=null">tel = #{tel},</if>
+			<if test="msg!=null">msg = #{msg},</if>
+			<if test="account!=null">account = #{account},</if>
+			<if test="qssid!=null">qssid = #{qssid},</if>
+		</set>
+		where qsspiid=#{qsspiid}
+	</update>
+
+
+</mapper>

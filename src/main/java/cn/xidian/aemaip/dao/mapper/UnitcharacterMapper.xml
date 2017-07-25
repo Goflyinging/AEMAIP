@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.xidian.aemaip.dao.UnitcharacterMapper" >
+  <resultMap id="unitcharacterResultMap" type="unitcharacter" >
+    <id column="ucid" property="ucid" jdbcType="INTEGER" />
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="upiid" property="upiid" jdbcType="INTEGER" />
+    <result column="cname" property="cname" jdbcType="CHAR" />
+    <result column="msg" property="msg" jdbcType="CHAR" />
+  </resultMap>
+  <select id="select" parameterType="page"
+		resultMap="unitcharacterResultMap">
+		select * from unitcharacter
+		<where>
+			<if test="paramEntity.ucid!=null">and ucid = #{paramEntity.ucid}</if>
+			<if test="paramEntity.id!=null">and id = #{paramEntity.id}</if>
+			<if test="paramEntity.upiid!=null">and upiid = #{paramEntity.upiid}</if>
+			<if test="paramEntity.cname!=null">and cname=#{paramEntity.cname}</if>
+		</where>
+		limit #{start},#{rows};
+  </select>
+  <select id="selectCount" parameterType="page" resultType="Integer">
+		select count(1) from unitcharacter
+		<where>
+			<if test="paramEntity.ucid!=null">and ucid = #{paramEntity.ucid}</if>
+			<if test="paramEntity.id!=null">and id = #{paramEntity.id}</if>
+			<if test="paramEntity.upiid!=null">and upiid = #{paramEntity.upiid}</if>
+			<if test="paramEntity.cname!=null">and cname=#{paramEntity.cname}</if>
+		</where>
+	</select>
+	<insert id="insert" parameterType="unitcharacter">
+	insert into unitcharacter
+	(id,upiid,cname,msg)
+	values
+	(#{id},#{upiid},#{cname},#{msg});
+	</insert>
+  <update id="updateById" parameterType="unitcharacter">
+    update unitcharacter
+    <set>
+            <if test="msg!=null">msg=#{msg},</if>
+			<if test="id!=null">id = #{id},</if>
+			<if test="upiid!=null"> upiid = #{upiid},</if>
+			<if test="cname!=null">cname=#{cname},</if>
+    </set>
+    where ucid=#{ucid}
+  </update>
+</mapper>

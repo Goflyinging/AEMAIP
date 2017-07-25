@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.xidian.aemaip.dao.SpstaffMapper">
+	<resultMap id="spstaffResultMap" type="spstaff">
+		<id column="spsid" property="spsid" jdbcType="INTEGER" />
+		<result column="qsspiid" property="qsspiid" jdbcType="INTEGER" />
+		<result column="srid" property="srid" jdbcType="INTEGER" />
+	</resultMap>
+
+
+	<select id="select" parameterType="page" resultMap="spstaffResultMap">
+		select * from spstaff
+		<where>
+			<if test="paramEntity.spsid!=null">and spsid = #{paramEntity.spsid}</if>
+			<if test="paramEntity.qsspiid!=null">and qsspiid = #{paramEntity.qsspiid}</if>
+			<if test="paramEntity.srid!=null">and srid = #{paramEntity.srid}</if>
+		</where>
+		limit #{start},#{rows};
+	</select>
+
+	<select id="selectCount" parameterType="page" resultType="Integer">
+		select count(1) from spstaff
+		<where>
+			<if test="paramEntity.spsid!=null">and spsid = #{paramEntity.spsid}</if>
+			<if test="paramEntity.qsspiid!=null">and qsspiid = #{paramEntity.qsspiid}</if>
+			<if test="paramEntity.srid!=null">and srid = #{paramEntity.srid}</if>
+		</where>
+	</select>
+
+
+	<update id="updateByID" parameterType="spstaff">
+		update spstaff
+		<set>
+			<if test="qsspiid!=null">qsspiid = #{qsspiid},</if>
+			<if test="srid!=null">srid = #{srid},</if>
+		</set>
+		where spsid=#{spsid}
+	</update>
+
+
+	<sql id="key">
+		<trim suffixOverrides=",">
+			<if test="qsspiid!=null">qsspiid,</if>
+			<if test="srid!=null">srid,</if>
+		</trim>
+	</sql>
+	<sql id="value">
+		<trim suffixOverrides=",">
+			<if test="qsspiid!=null">#{qsspiid},</if>
+			<if test="srid!=null">#{srid},</if>
+		</trim>
+	</sql>
+	<insert id="insert" parameterType="spstaff">
+		insert into spstaff
+		(
+		<include refid="key" />
+		)
+		values (
+		<include refid="value" />
+		)
+	</insert>
+
+</mapper>

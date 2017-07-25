@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.xidian.aemaip.dao.CharactersMapper">
+	<resultMap id="charactersResultMap" type="characters">
+		<id column="cid" property="cid" jdbcType="INTEGER" />
+		<result column="mdg" property="mdg" jdbcType="CHAR" />
+	</resultMap>
+
+	<!-- yusky -->
+	<select id="select" parameterType="page" resultMap="charactersResultMap">
+		select * from characters
+		<where>
+			<if test="paramEntity.cid!=null">and cid = #{paramEntity.cid}</if>
+			<if test="paramEntity.mdg!=null">and mdg = #{paramEntity.mdg}</if>
+		</where>
+		limit #{start},#{rows};
+	</select>
+
+	<select id="selectCount" parameterType="page" resultType="Integer">
+		select count(1) from characters
+		<where>
+			<if test="paramEntity.cid!=null">and cid = #{paramEntity.cid}</if>
+			<if test="paramEntity.mdg!=null">and mdg = #{paramEntity.mdg}</if>
+		</where>
+	</select>
+
+	<update id="updateByID" parameterType="characters">
+		update characters
+		<set>
+			<if test="mdg!=null">mdg = #{mdg} ,</if>
+		</set>
+		where cid=#{cid}
+	</update>
+
+	<delete id="delete" parameterType="characters">
+		delete from characters
+		<where>
+			<if test="cid!=null">and cid = #{cid}</if>
+			<if test="mdg!=null">and mdg = #{mdg}</if>
+		</where>
+	</delete>
+
+
+	<!-- yusky -->
+
+	<!-- xtc -->
+	<select id="selectById" parameterType="int" resultMap="charactersResultMap">
+		select *
+		from Characters
+		where cid=#{cid};
+	</select>
+
+	<select id="selectByMdg" parameterType="String" resultMap="charactersResultMap">
+		select * from Characters
+		where mdg=#{mdg};
+	</select>
+
+	<select id="selectAll" resultMap="charactersResultMap">
+		select * from Characters;
+	</select>
+
+	<insert id="insert" parameterType="String">
+		insert into Characters
+		(mdg)
+		values
+		(#{mdg});
+	</insert>
+	<!-- xtc -->
+</mapper>

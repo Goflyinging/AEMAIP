@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.xidian.aemaip.dao.DocstateMapper">
+	<resultMap id="docstateResultMap" type="docstate">
+		<id column="state" property="state" jdbcType="INTEGER" />
+		<result column="msg" property="msg" jdbcType="CHAR" />
+	</resultMap>
+
+	<select id="select" parameterType="docstate" resultMap="docstateResultMap">
+		select * from docstate
+		<where>
+			<if test="state!=null">and state = #{state}</if>
+			<if test="msg!=null">and msg = #{msg}</if>
+		</where>
+	</select>
+
+</mapper>

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.xidian.aemaip.dao.ProjectMapper">
+	<resultMap id="projectResultMap" type="project">
+		<id column="projectid" property="projectid" jdbcType="INTEGER" />
+		<result column="ogid" property="ogid" jdbcType="INTEGER" />
+		<result column="qssid" property="qssid" jdbcType="INTEGER" />
+		<result column="prjsid" property="prjsid" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="CHAR" />
+		<result column="begintime" property="begintime" jdbcType="TIMESTAMP" />
+		<result column="endtime" property="endtime" jdbcType="TIMESTAMP" />
+		<result column="regao" property="regao" jdbcType="CHAR" />
+		<result column="msg" property="msg" jdbcType="LONGVARCHAR" />
+		<result column="mpid" property="mpid" jdbcType="INTEGER" />
+	</resultMap>
+
+
+	<insert id="insert" parameterType="project">
+		insert into project
+		(ogid,qssid,prjsid,name,endtime,msg)
+		values
+		(#{ogid},#{qssid},100,#{name},Null,#{msg});
+	</insert>
+
+	<select id="selectById" parameterType="int" resultMap="projectResultMap">
+		select *
+		from project
+		where projectid=#{projectid};
+	</select>
+
+	<select id="select" parameterType="page" resultMap="projectResultMap">
+		select * from projectwithmonitoringprograms
+		<where>
+			<if test="paramEntity.projectid!=null">and projectid = #{paramEntity.projectid}</if>
+			<if test="paramEntity.ogid!=null">and ogid = #{paramEntity.ogid}</if>
+			<if test="paramEntity.qssid!=null">and qssid = #{paramEntity.qssid}</if>
+			<if test="paramEntity.prjsid!=null">and prjsid = #{paramEntity.prjsid}</if>
+			<if test="paramEntity.name!=null">and name = #{paramEntity.name}</if>
+			<if test="paramEntity.begintime!=null">and begintime = #{paramEntity.begintime}</if>
+			<if test="paramEntity.endtime!=null">and endtime = #{paramEntity.endtime}</if>
+			<if test="paramEntity.regao!=null">and regao = #{paramEntity.regao}</if>
+			<if test="paramEntity.msg!=null">and msg = #{paramEntity.msg}</if>
+			<if test="paramEntity.mpid!=null">and mpid = #{paramEntity.mpid}</if>
+		</where>
+		limit #{start},#{rows};
+	</select>
+
+	<select id="selectCount" parameterType="page" resultType="Integer">
+		select count(1) from projectwithmonitoringprograms
+		<where>
+			<if test="paramEntity.projectid!=null">and projectid = #{paramEntity.projectid}</if>
+			<if test="paramEntity.ogid!=null">and ogid = #{paramEntity.ogid}</if>
+			<if test="paramEntity.qssid!=null">and qssid = #{paramEntity.qssid}</if>
+			<if test="paramEntity.prjsid!=null">and prjsid = #{paramEntity.prjsid}</if>
+			<if test="paramEntity.name!=null">and name = #{paramEntity.name}</if>
+			<if test="paramEntity.begintime!=null">and begintime = #{paramEntity.begintime}</if>
+			<if test="paramEntity.endtime!=null">and endtime = #{paramEntity.endtime}</if>
+			<if test="paramEntity.regao!=null">and regao = #{paramEntity.regao}</if>
+			<if test="paramEntity.msg!=null">and msg = #{paramEntity.msg}</if>
+			<if test="paramEntity.mpid!=null">and mpid = #{paramEntity.mpid}</if>
+		</where>
+	</select>
+
+	<select id="select1" parameterType="page" resultMap="projectResultMap">
+		select * from project
+		<where>
+			<if test="paramEntity.projectid!=null">and projectid = #{paramEntity.projectid}</if>
+			<if test="paramEntity.ogid!=null">and ogid = #{paramEntity.ogid}</if>
+			<if test="paramEntity.qssid!=null">and qssid = #{paramEntity.qssid}</if>
+			and (prjsid = 100 or prjsid=101)
+			<if test="paramEntity.name!=null">and name = #{paramEntity.name}</if>
+			<if test="paramEntity.begintime!=null">and begintime = #{paramEntity.begintime}</if>
+			<if test="paramEntity.endtime!=null">and endtime = #{paramEntity.endtime}</if>
+			<if test="paramEntity.regao!=null">and regao = #{paramEntity.regao}</if>
+			<if test="paramEntity.msg!=null">and msg = #{paramEntity.msg}</if>
+		</where>
+		limit #{start},#{rows};
+	</select>
+
+	<select id="selectCount1" parameterType="page" resultType="Integer">
+		select count(1) from project
+		<where>
+			<if test="paramEntity.projectid!=null">and projectid = #{paramEntity.projectid}</if>
+			<if test="paramEntity.ogid!=null">and ogid = #{paramEntity.ogid}</if>
+			<if test="paramEntity.qssid!=null">and qssid = #{paramEntity.qssid}</if>
+			and (prjsid = 100 or prjsid=101)
+			<if test="paramEntity.name!=null">and name = #{paramEntity.name}</if>
+			<if test="paramEntity.begintime!=null">and begintime = #{paramEntity.begintime}</if>
+			<if test="paramEntity.endtime!=null">and endtime = #{paramEntity.endtime}</if>
+			<if test="paramEntity.regao!=null">and regao = #{paramEntity.regao}</if>
+			<if test="paramEntity.msg!=null">and msg = #{paramEntity.msg}</if>
+		</where>
+	</select>
+	<update id="update" parameterType="project">
+		update project
+		<set>
+			<if test="ogid!=null">ogid = #{ogid},</if>
+			<if test="qssid!=null"> qssid = #{qssid},</if>
+			<if test="prjsid!=null"> prjsid = #{prjsid},</if>
+			<if test="name!=null"> name = #{name},</if>
+			<if test="regao!=null"> regao = #{regao},</if>
+			<if test="msg!=null"> msg = #{msg}</if>
+		</set>
+		where projectid=#{projectid}
+	</update>
+
+
+
+	<update id="updatePrjsidById">
+		update project set
+		prjsid=#{1} where projectid = #{0}
+	</update>
+	<update id="updateEndTime">
+		update project set
+		endtime=current_timestamp where
+		projectid =#{0};
+	</update>
+	<update id="updateMsg">
+		update project set
+		msg=#{1} where projectid
+		=#{0};
+	</update>
+	<update id="updateRegao">
+		update project set
+		regao=#{1} where projectid
+		=#{0};
+	</update>
+	<update id="updateogid">
+		update project set
+		ogid=#{1} where projectid
+		=#{0};
+	</update>
+</mapper>

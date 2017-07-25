@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.xidian.aemaip.dao.CompanyMapper">
+	<resultMap id="companyResultMap" type="company">
+		<id column="companyid" property="companyid" jdbcType="INTEGER" />
+		<result column="companytypeid" property="companytypeid"
+			jdbcType="INTEGER" />
+		<result column="adressid" property="adressid" jdbcType="INTEGER" />
+		<result column="account" property="account" jdbcType="INTEGER" />
+		<result column="upiid" property="upiid" jdbcType="INTEGER" />
+		<result column="companyname" property="companyname" jdbcType="CHAR" />
+		<result column="companyphone" property="companyphone" jdbcType="CHAR" />
+		<result column="companyjiontime" property="companyjiontime"
+			jdbcType="TIMESTAMP" />
+		<result column="companystate" property="companystate" jdbcType="INTEGER" />
+		<result column="email" property="email" jdbcType="CHAR" />
+	</resultMap>
+
+	<select id="selectByID" parameterType="int" resultMap="companyResultMap">
+		select *
+		from company where companyid = #{companyid}
+	</select>
+
+	<select id="selectByCompanyname" parameterType="String"
+		resultMap="companyResultMap">
+		select * from company where companyname = #{companyname}
+	</select>
+
+	<insert id="insert" parameterType="company">
+		insert into company
+		(companytypeid,adressid,account,companyname,companyphone,companystate,email)
+		values
+		(#{companytypeid},#{adressid},#{account},#{companyname},#{companyphone},#{companystate},#{email});
+	</insert>
+
+	<update id="updateTypeByID">
+		update company set
+		companytypeid=#{1} where companyid
+		= #{0}
+	</update>
+
+	<update id="updateAdressByID">
+		update company set
+		adressid=#{1}
+		where companyid = #{0}
+	</update>
+
+	<update id="updateUpiidByID">
+		update company set
+		upiid=#{1} where
+		companyid = #{0}
+	</update>
+
+	<update id="updatePhoneByID">
+		update company set
+		companyphone=#{1} where companyid =
+		#{0}
+	</update>
+
+	<update id="updateStateByID">
+		update company set
+		companystate=#{1} where companyid =
+		#{0}
+	</update>
+
+	<update id="updateEmailByID">
+		update company set
+		email=#{1} where
+		companyid = #{0}
+	</update>
+
+	<select id="selectUnapprovedPage" parameterType="Page"
+		resultMap="companyResultMap">
+		select * from
+		company
+		where
+		companystate =0 limit
+		#{start},#{rows};
+	</select>
+
+	<select id="selectUnapproved" resultType="int">
+		select count(1) from
+		company
+		where
+		companystate =0 ;
+	</select>
+
+</mapper>

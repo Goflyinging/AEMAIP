@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.xidian.aemaip.dao.CompanytypeMapper">
+	<resultMap id="companytypeResultMap" type="companytype">
+		<id column="companytypeid" property="companytypeid" jdbcType="INTEGER" />
+		<result column="desperation" property="desperation" jdbcType="CHAR" />
+	</resultMap>
+
+	<select id="selectTypeById" parameterType="int" resultMap="companytypeResultMap">
+		select * from companytype where companytypeid = #{companytypeid};
+	</select>
+
+	<select id="selectAllType" resultMap="companytypeResultMap">
+		select * from companytype;
+	</select>
+</mapper>

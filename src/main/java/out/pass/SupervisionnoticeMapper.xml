@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="out.SupervisionnoticeMapper" >
+  <resultMap id="BaseResultMap" type="out.Supervisionnotice" >
+    <id column="snid" property="snid" jdbcType="INTEGER" />
+    <result column="projectid" property="projectid" jdbcType="INTEGER" />
+    <result column="rsid" property="rsid" jdbcType="INTEGER" />
+    <result column="qsspiid" property="qsspiid" jdbcType="INTEGER" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="date" property="date" jdbcType="DATE" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="out.Supervisionnotice" extends="BaseResultMap" >
+    <result column="snnotice" property="snnotice" jdbcType="LONGVARCHAR" />
+  </resultMap>
+ 
+</mapper>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.xidian.aemaip.dao.SupervisorsMapper">
+	<resultMap id="supervisorsResultMap" type="supervisors">
+		<id column="sid" property="sid" jdbcType="INTEGER" />
+		<result column="ogid" property="ogid" jdbcType="INTEGER" />
+		<result column="qsspiid" property="pinfoid" jdbcType="INTEGER" />
+	</resultMap>
+
+
+	<select id="select" parameterType="page" resultMap="supervisorsResultMap">
+		select * from supervisors
+		<where>
+			<if test="paramEntity.sid!=null">and sid = #{paramEntity.sid}</if>
+			<if test="paramEntity.ogid!=null">and ogid = #{paramEntity.ogid}</if>
+			<if test="paramEntity.pinfoid!=null">and qsspiid = #{paramEntity.pinfoid}</if>
+		</where>
+		limit #{start},#{rows};
+	</select>
+
+	<select id="selectCount" parameterType="page" resultType="Integer">
+		select count(1) from supervisors
+		<where>
+			<if test="paramEntity.sid!=null">and sid = #{paramEntity.sid}</if>
+			<if test="paramEntity.ogid!=null">and ogid = #{paramEntity.ogid}</if>
+			<if test="paramEntity.pinfoid!=null">and qsspiid = #{paramEntity.pinfoid}</if>
+		</where>
+	</select>
+
+	<update id="updateByID" parameterType="supervisors">
+		update supervisors
+		<set>
+			<if test="ogid!=null">ogid = #{ogid} ,</if>
+			<if test="pinfoid!=null">qsspiid = #{pinfoid},</if>
+		</set>
+		where sid=#{sid}
+	</update>
+
+
+	<sql id="key">
+		<trim suffixOverrides=",">
+			<if test="ogid!=null">ogid,</if>
+			<if test="pinfoid!=null">qsspiid,</if>
+		</trim>
+	</sql>
+	<sql id="value">
+		<trim suffixOverrides=",">
+			<if test="ogid!=null">#{ogid},</if>
+			<if test="pinfoid!=null">#{pinfoid},</if>
+		</trim>
+	</sql>
+	<insert id="insert" parameterType="supervisors">
+		insert into supervisors
+		(
+		<include refid="key" />
+		)
+		values (
+		<include refid="value" />
+		)
+	</insert>
+
+</mapper>

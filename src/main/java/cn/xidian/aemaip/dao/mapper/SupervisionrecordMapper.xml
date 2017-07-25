@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.xidian.aemaip.dao.SupervisionrecordMapper">
+	<resultMap id="supervisionrecordResultMap" type="supervisionrecord">
+		<id column="srid" property="srid" jdbcType="INTEGER" />
+		<result column="projectid" property="projectid" jdbcType="INTEGER" />
+		<result column="qsspiid" property="qsspiid" jdbcType="INTEGER" />
+		<result column="stid" property="stid" jdbcType="INTEGER" />
+		<result column="state" property="state" jdbcType="INTEGER" />
+		<result column="stateid" property="stateid" jdbcType="INTEGER" />
+		<result column="supervisiontime" property="supervisiontime"
+			jdbcType="TIMESTAMP" />
+		<result column="supervisionrecord" property="supervisionrecord"
+			jdbcType="LONGVARCHAR" />
+	</resultMap>
+
+
+	<select id="select" parameterType="page" resultMap="supervisionrecordResultMap">
+		select * from supervisionrecord
+		<where>
+			<if test="paramEntity.srid!=null">and srid = #{paramEntity.srid}</if>
+			<if test="paramEntity.projectid!=null">and projectid = #{paramEntity.projectid}</if>
+			<if test="paramEntity.qsspiid!=null">and qsspiid = #{paramEntity.qsspiid}</if>
+			<if test="paramEntity.stid!=null">and stid = #{paramEntity.stid}</if>
+			<if test="paramEntity.state!=null">and state = #{paramEntity.state}</if>
+			<if test="paramEntity.stateid!=null">and stateid = #{paramEntity.stateid}</if>
+			<if test="paramEntity.supervisionrecord!=null">
+				and supervisionrecord = #{paramEntity.supervisionrecord}
+			</if>
+			<if test="paramEntity.supervisiontime!=null">
+				and supervisiontime = #{paramEntity.supervisiontime}
+			</if>
+		</where>
+		limit #{start},#{rows};
+	</select>
+
+	<select id="selectCount" parameterType="page" resultType="Integer">
+		select count(1) from supervisionrecord
+		<where>
+			<if test="paramEntity.srid!=null">and srid = #{paramEntity.srid}</if>
+			<if test="paramEntity.projectid!=null">and projectid = #{paramEntity.projectid}</if>
+			<if test="paramEntity.qsspiid!=null">and qsspiid = #{paramEntity.qsspiid}</if>
+			<if test="paramEntity.stid!=null">and stid = #{paramEntity.stid}</if>
+			<if test="paramEntity.state!=null">and state = #{paramEntity.state}</if>
+			<if test="paramEntity.stateid!=null">and stateid = #{paramEntity.stateid}</if>
+			<if test="paramEntity.supervisionrecord!=null">
+				and supervisionrecord = #{paramEntity.supervisionrecord}
+			</if>
+			<if test="paramEntity.supervisiontime!=null">
+				and supervisiontime = #{paramEntity.supervisiontime}
+			</if>
+		</where>
+	</select>
+
+
+	<update id="updateByID" parameterType="supervisionreport">
+		update supervisionrecord
+		<set>
+			<if test="projectid!=null">projectid = #{projectid},</if>
+			<if test="qsspiid!=null">qsspiid = #{qsspiid},</if>
+			<if test="stid!=null">stid = #{stid},</if>
+			<if test="state!=null">state = #{state},</if>
+			<if test="stateid!=null">stateid = #{stateid},</if>
+			<if test="supervisionrecord!=null">supervisionrecord = #{supervisionrecord},</if>
+			<if test="supervisiontime!=null">supervisiontime = #{supervisiontime},</if>
+		</set>
+		where srid=#{srid}
+	</update>
+
+
+	<sql id="key">
+		<trim suffixOverrides=",">
+			<if test="projectid!=null">projectid,</if>
+			<if test="qsspiid!=null">qsspiid,</if>
+			<if test="stid!=null">stid,</if>
+			<if test="state!=null">state,</if>
+			<if test="stateid!=null">stateid,</if>
+			<if test="supervisionrecord!=null">supervisionrecord,</if>
+			<if test="supervisiontime!=null">supervisiontime,</if>
+		</trim>
+	</sql>
+	<sql id="value">
+		<trim suffixOverrides=",">
+			<if test="projectid!=null">#{projectid},</if>
+			<if test="qsspiid!=null">#{qsspiid},</if>
+			<if test="stid!=null">#{stid},</if>
+			<if test="state!=null">#{state},</if>
+			<if test="stateid!=null">#{stateid},</if>
+			<if test="supervisionrecord!=null">#{supervisionrecord},</if>
+			<if test="supervisiontime!=null">#{supervisiontime},</if>
+		</trim>
+	</sql>
+	<insert id="insert" parameterType="supervisionreport">
+		insert into supervisionrecord
+		(
+		<include refid="key" />
+		)
+		values (
+		<include refid="value" />
+		)
+	</insert>
+
+</mapper>

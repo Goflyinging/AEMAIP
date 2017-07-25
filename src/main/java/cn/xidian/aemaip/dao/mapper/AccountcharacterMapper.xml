@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.xidian.aemaip.dao.AccountcharacterMapper">
+	<resultMap id="accountcharacterResultMap" type="accountcharacter">
+		<id column="acid" property="acid" jdbcType="INTEGER" />
+		<result column="account" property="account" jdbcType="INTEGER" />
+		<result column="cid" property="cid" jdbcType="INTEGER" />
+	</resultMap>
+
+	<!-- yusky -->
+	<select id="select" parameterType="page" resultMap="accountcharacterResultMap">
+		select * from accountcharacter
+		<where>
+			<if test="paramEntity.acid!=null">and acid = #{paramEntity.acid}</if>
+			<if test="paramEntity.account!=null">and account = #{paramEntity.account}</if>
+			<if test="paramEntity.cid!=null">and cid = #{paramEntity.cid}</if>
+		</where>
+		limit #{start},#{rows};
+	</select>
+
+	<select id="selectCount" parameterType="page" resultType="Integer">
+		select count(1) from accountcharacter
+		<where>
+			<if test="paramEntity.acid!=null">and acid = #{paramEntity.acid}</if>
+			<if test="paramEntity.account!=null">and account = #{paramEntity.account}</if>
+			<if test="paramEntity.cid!=null">and cid = #{paramEntity.cid}</if>
+		</where>
+	</select>
+
+	<update id="updateByID" parameterType="accountcharacter">
+		update accountcharacter
+		<set>
+			<if test="account!=null">account = #{account} ,</if>
+			<if test="cid!=null">cid = #{cid},</if>
+		</set>
+		where acid=#{acid}
+	</update>
+
+	<delete id="delete" parameterType="accountcharacter">
+		delete from accountcharacter
+		<where>
+			<if test="acid!=null">and acid = #{acid}</if>
+			<if test="account!=null">and account = #{account}</if>
+			<if test="cid!=null">and cid = #{cid}</if>
+		</where>
+	</delete>
+
+	<!-- yusky -->
+
+	<!-- xtc -->
+	<select id="selectByAccount" parameterType="int"
+		resultMap="accountcharacterResultMap">
+		Select * from Accountcharacter
+		where account=#{account};
+	</select>
+	<select id="selectByAccountAndCid" resultMap="accountcharacterResultMap">
+		Select * from
+		Accountcharacter
+		where account=#{0} and cid=#{1};
+	</select>
+	<insert id="insert" parameterType="Accountcharacter">
+		insert into Accountcharacter
+		(account,cid)
+		values
+		(#{account},#{cid});
+	</insert>
+</mapper>
